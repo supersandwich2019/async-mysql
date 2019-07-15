@@ -1,0 +1,12 @@
+{
+  "name": "async-mysql",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "@types/mysql": "^2.15.6"
+  }
+}
