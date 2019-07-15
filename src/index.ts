@@ -3,7 +3,7 @@ import { Pool, PoolConnection, Query } from 'mysql';
 
 let pool: Pool | null = null;
 
-export default class Database {
+export class Database {
   constructor(
     public conn: PoolConnection
   ) {
@@ -103,3 +103,5 @@ export default class Database {
     });
   }
 }
+
+export default Database;

@@ -1,30 +1,15 @@
-/// <reference types="node" />
-import { LevelDownOpenOptions, LevelDownIterator } from 'leveldown';
-export interface ILeveldbOptions<K, V> {
-    encodeKey: (key: K) => Buffer;
-    decodeKey: (buffer: Buffer) => K;
-    encodeValue: (key: V) => Buffer;
-    decodeValue: (buffer: Buffer) => V;
+import { Pool, PoolConnection, Query } from 'mysql';
+export declare class Database {
+    conn: PoolConnection;
+    constructor(conn: PoolConnection);
+    rawQuery(sql: string, args: any): Query;
+    stepQuery(sql: string, args: any, stepCallback: (row: any, index: number) => void, fieldsCallback?: (row: any, index: number) => void): Promise<void>;
+    query(sql: string, args: any): Promise<{}>;
+    beginTransaction(): Promise<void>;
+    commit(): Promise<void>;
+    rollback(): Promise<void>;
+    release(): void;
+    static startup(pool_: Pool): void;
+    static getStore(type?: any): Promise<Database>;
 }
-export declare class Leveldb<K, V> {
-    options: ILeveldbOptions<K, V>;
-    private readonly _db;
-    constructor(location: string, options: ILeveldbOptions<K, V>);
-    open(options?: LevelDownOpenOptions): Promise<{}>;
-    close(): Promise<{}>;
-    get(key: K): Promise<any>;
-    put(key: K, value: V): Promise<{}>;
-    iterator(): LeveldbIterator<K, V>;
-    static destroy(location: string): Promise<{}>;
-}
-export declare class LeveldbIterator<K, V> {
-    iterator: LevelDownIterator;
-    options: ILeveldbOptions<K, V>;
-    constructor(iterator: LevelDownIterator, options: ILeveldbOptions<K, V>);
-    seek(key: K): void;
-    next(): Promise<{
-        key: K;
-        value: V | null;
-    } | null>;
-    end(): Promise<{}>;
-}
+export default Database;
